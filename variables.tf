@@ -28,12 +28,19 @@ variable "eu_availability_zone" {
   description = "Availability Zones"
 }
 
-# variable "public_key" {
-#   type        = string
-#   description = "DevOps Project 1 Public key for EC2 instance"
-# }
+variable "ec2_ami_id_jenkins" {
+  description = "The AMI ID for the EC2 instance"
+  type        = string
+}
 
-# variable "ec2_ami_id" {
-#   type        = string
-#   description = "DevOps Project 1 AMI Id for EC2 instance"
-# }
+variable "instance_type_jenkins" {
+  description = "The type of EC2 instance to launch (e.g., t2.micro)"
+  type        = string
+  default     = "t2.micro"
+}
+
+variable "ec2_name_jenkins" {
+  description = "The Name tag for the EC2 instance"
+  type        = string
+  default     = "devops-ec2-instance"
+}
