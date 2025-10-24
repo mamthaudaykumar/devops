@@ -25,9 +25,9 @@ resource "aws_key_pair" "dev_proj_jenkins_key" {
   key_name   = var.ssh_key_name
   public_key = tls_private_key.jenkins_key.public_key_openssh
 
-  lifecycle {
-    prevent_destroy = true
-  }
+  # lifecycle {
+  #   prevent_destroy = true
+  # }
 }
 
 resource "local_file" "jenkins_private_key" {
@@ -35,9 +35,9 @@ resource "local_file" "jenkins_private_key" {
   filename        = "${path.module}/jenkins_key.pem"
   file_permission = "0600"
 
-  lifecycle {
-    prevent_destroy = true
-  }
+#   lifecycle {
+#     prevent_destroy = true
+#   }
 
   depends_on = [tls_private_key.jenkins_key]
 }
