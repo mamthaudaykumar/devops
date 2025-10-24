@@ -20,3 +20,8 @@ module "networking" {
   cidr_private_subnet = var.cidr_private_subnet
   vpc_cidr = var.vpc_cidr
 }
+
+module "iam" {
+  source = "../ecs-jenkins/iam"
+  project_prefix = var.project_prefix
+}
