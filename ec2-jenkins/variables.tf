@@ -44,3 +44,9 @@ variable "ec2_name_jenkins" {
   type        = string
   default     = "devops-ec2-instance"
 }
+
+variable "ssh_key_name" {
+  default = "dev_proj_jenkins_key"
+  type = string
+  description = "SSH Key private"
+}

@@ -14,6 +14,18 @@ module "securitygroup" {
   ec2_jenkins_sg_name = "Allow port 8080 for jenkins"
 }
 
+# Generate a new SSH private key
+resource "tls_private_key" "jenkins_key" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+# Upload the public key to AWS
+resource "aws_key_pair" "dev_proj_jenkins_key" {
+  key_name   = "dev_proj_jenkins_key"
+  public_key = tls_private_key.jenkins_key.public_key_openssh
+}
+
 module "ec2-jenkins" {
   source               = "./modules/ec2-jenkins"
   ec2_ami_id_jenkins             = var.ec2_ami_id_jenkins
@@ -21,4 +33,5 @@ module "ec2-jenkins" {
   ec2_name_jenkins   = var.ec2_name_jenkins
   subnet_id     = module.networking.dev_proj_public_subnets[0]
   security_group_id     = module.securitygroup.sg_ec2_sg_ssh_http_id
+  keyssh      = aws_key_pair.dev_proj_jenkins_key.key_name
 }
