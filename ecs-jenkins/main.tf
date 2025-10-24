@@ -25,3 +25,11 @@ module "iam" {
   source = "../ecs-jenkins/iam"
   project_prefix = var.project_prefix
 }
+
+module "ecs" {
+  source = "../ecs-jenkins/ecs" 
+  project_prefix = var.project_prefix
+  public_subnet_id = module.networking.public_subnet_ids[0]
+  iam_instance_profile_name = module.iam.ecs_instance_profile_name
+  vpc_id = module.networking.vpc_id
+}
