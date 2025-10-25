@@ -96,35 +96,6 @@ resource "aws_launch_template" "ecs_lt" {
     name = var.iam_instance_profile_name
   }
 
-  user_data = base64encode(<<EOF
-    #!/bin/bash
-    # Register instance with ECS cluster
-    echo "ECS_CLUSTER=${aws_ecs_cluster.jenkins_cluster.name}" >> /etc/ecs/ecs.config
-
-    # Update system and install dependencies
-    yum update -y
-    yum install -y wget yum-utils
-
-    # Install Java 11
-    amazon-linux-extras enable corretto11
-    yum install -y java-11-amazon-corretto
-
-    # Add Jenkins repo
-    wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
-    rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
-
-    # Install Jenkins
-    yum clean all
-    yum install -y jenkins
-
-    # Enable and start Jenkins service
-    systemctl daemon-reload
-    systemctl enable jenkins
-    systemctl start jenkins
-    EOF
-    )
-
-
   network_interfaces {
     associate_public_ip_address = true
     subnet_id                   = var.public_subnet_id
